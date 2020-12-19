@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+}
+
+.root {
+  display: grid;
+
+  grid-template-rows: 5.5em 12em;
+  grid-template-columns: 1fr 40em 1fr;
+  grid-template-areas: 
+    "header header header"
+    ". content .";
+}
+
+.header {
+  grid-area: header;
+
+  display: grid;
+
+  grid-template-columns: 1fr 5em 35em 1fr;
+  grid-template-rows: auto .5em;
+  grid-template-areas: 
+    ". logo title ."
+    "countdown countdown countdown countdown";
+
+  background-color: red;
+}
+
+.header .logo {
+  grid-area: logo;
+
+  background-color: purple;
+}
+
+.header .title {
+  grid-area: title;
+
+  background-color: yellow;
+}
+
+.header .countdown {
+  grid-area: countdown;
+
+  background-color:  blue;
+}
+
+.content {
+  grid-area: content;
+
+  background-color: green;
+}
