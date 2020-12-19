@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: sans-serif;
 }
 
 .root {
@@ -55,7 +56,6 @@ body {
   justify-self: center;
 
   font-size: 5em;
-  font-family: sans-serif;
   margin: 0;
 }
 
@@ -66,5 +66,59 @@ body {
 }
 
 .content {
+  padding-top: 2em;
   grid-area: content;
+}
+
+.content .landing form {
+  display: flex;
+  flex-direction: column;
+}
+
+.content .landing form > * {
+  margin-top: 1em;
+}
+
+
+.content .landing form * {
+  font-size: 1em;
+}
+
+.content .landing form .pair {
+  display:  flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  align-content:  stretch;
+}
+
+.content .landing form .pair label {
+  margin-top: .2em;
+  margin-right: 1em;
+  padding: .2em .6em;
+}
+
+.content .landing form .pair label::after {
+  content: ":";
+}
+
+.content .landing form .pair input {
+  width: 100%;
+}
+
+.content .landing form input {
+  border: 1px solid black;
+  color: white;
+  color: black;
+  background: white;
+  padding: .2em .6em;
+}
+
+.content .landing form input[type=submit] {
+  text-align: center;
+}
+
+.content .landing form input[type=text] {
+  border: 0px solid black;
+  border-bottom-width: 1px;
 }
