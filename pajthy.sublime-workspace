@@ -1,0 +1,404 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"just",
+				"justify-self"
+			],
+			[
+				"spa",
+				"space-evenly"
+			],
+			[
+				"p",
+				"placeholder\tAttr"
+			],
+			[
+				"back",
+				"background\tproperty"
+			],
+			[
+				"alig",
+				"align-items\tproperty"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n\n<head>\n  <meta charset=\"utf-8\">\n  <title>Pajthy</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n  <link href=\"style.css\" rel=\"stylesheet\">\n</head>\n\n<body>\n\n  <div class=\"root\">\n    <div class=\"header\">\n      <div class=\"logo\"></div>\n      <h1 class=\"title\">Pajthy</h1>\n    </div>\n    <div class=\"countdown\"></div>\n    <div class=\"content\">\n      <div class=\"admin\">\n        <h2>Alpha Team Grooming 1st of April</h2>\n        <div class=\"share\">\n          <div class=\"link\">https://pajthy.com/abcde</div>\n          <div class=\"button\">Copy</div>\n        </div>\n        <hr />\n        <form method=\"POST\">\n          <div class=\"pair\">\n            <label for=\"title\">Timer</label><br>\n            <input type=\"text\" id=\"title\" name=\"title\" placeholder=\"30\"><br>\n          </div>\n          <input type=\"submit\" value=\"Begin voting!\" />\n        </form>\n        <hr />\n        <table class=\"votes\">\n          <tbody>\n            <tr>\n              <td>Alice (x)</td>\n              <td>2</td>\n            </tr>\n            <tr>\n              <td>Bob (x)</td>\n              <td>?</td>\n            </tr>\n            <tr>\n              <td>Carol (x)</td>\n              <td>3</td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n\n</body>\n\n</html>\n",
+			"file": "sitebuild/admin.html",
+			"file_size": 1330,
+			"file_write_time": 132528760907679587,
+			"settings":
+			{
+				"buffer_size": 1330,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "body {\n  margin: 0;\n  font-family: sans-serif;\n}\n\n.root {\n  display: grid;\n\n  grid-template-rows: 10em .5em 1fr;\n  grid-template-columns: 1fr 40em 1fr;\n  grid-template-areas: \n    \"header header header\"\n    \"countdown countdown countdown\"\n    \". content .\";\n}\n\n.header {\n  grid-area: header;\n\n  display: grid;\n\n  grid-template-columns: 1fr 10em 30em 1fr;\n  grid-template-areas:\n    \". logo title .\";\n}\n\n\n@media (max-width: 40em) {\n  .root {\n    grid-template-rows: 5em .5em 1fr;\n    grid-template-columns: 100%;\n    grid-template-areas:\n      \"header\"\n      \"countdown\"\n      \"content\";\n  }\n\n  .header {\n    grid-template-columns: 5em 1fr;\n    grid-template-areas:\n      \"logo title\";\n  }\n}\n\n.header .logo {\n  grid-area: logo;\n\n  background-image: url(\"logo.png\");\n  background-size: cover;\n}\n\n.header h1.title {\n  grid-area: title;\n\n  align-self: center;\n  justify-self: center;\n\n  font-size: 5em;\n  margin: 0;\n}\n\n.countdown {\n  grid-area: countdown;\n\n  background-color: black;\n}\n\n.content {\n  padding-top: 2em;\n  grid-area: content;\n}\n\n.content h2 {\n  text-align: center;\n}\n\n.content form {\n  display: flex;\n  flex-direction: column;\n}\n\n.content form > * {\n  margin-top: 1em;\n}\n\n.content form * {\n  font-size: 1em;\n}\n\n.content form .pair {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: stretch;\n  align-content: stretch;\n}\n\n.content form .pair label {\n  margin-top: .2em;\n  margin-right: 1em;\n  padding: .2em .6em;\n}\n\n.content form .pair label::after {\n  content: \":\";\n}\n\n.content form .pair input {\n  width: 100%;\n}\n\n.content form input,\n.button {\n  border: 1px solid black;\n  color: white;\n  color: black;\n  background: white;\n  padding: .2em .6em;\n}\n\n.content form input[type=submit],\n.button {\n  text-align: center;\n  cursor: pointer;\n  user-select: none;\n}\n\n.content form input[type=text] {\n  border: 0px solid black;\n  border-bottom-width: 1px;\n}\n\n.content hr {\n  border: 1px solid #eee;\n  margin: 2em 2em;\n  margin-bottom: 1em;\n}\n\n.content .admin table.votes {\n  border: 2px solid black;\n  border-collapse: collapse;\n  table-layout: fixed;\n  \n  width: 30em;\n  margin-top: 2em;\n  margin-left: 5em;\n\n  justify-content: center;\n}\n\n.content .admin table.votes td {\n  padding: .4em;\n  border: 1px solid black;\n}\n\n.content .admin table.votes td:nth-child(2) {\n  width: 10em;\n  text-align: center;\n}\n\n.content .admin .share {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\n.content .admin .link {\n  font-style: italic;\n  margin-top: .3em;\n  margin-right: 1.5em;\n}",
+			"file": "sitebuild/style.css",
+			"file_size": 2532,
+			"file_write_time": 132528761246051093,
+			"settings":
+			{
+				"buffer_size": 2532,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n\n<head>\n  <meta charset=\"utf-8\">\n  <title>Pajthy</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n  <link href=\"style.css\" rel=\"stylesheet\">\n</head>\n\n<body>\n\n  <div class=\"root\">\n    <div class=\"header\">\n      <div class=\"logo\"></div>\n      <h1 class=\"title\">Pajthy</h1>\n    </div>\n    <div class=\"countdown\"></div>\n    <div class=\"content\">\n      <div class=\"session-landing\">\n        <h2>Alpha Team Grooming 1st of April</h2>\n        <form action=\"session.html\">\n          <div class=\"pair\">\n            <label for=\"title\">Name</label><br>\n            <input type=\"text\" id=\"title\" name=\"title\" placeholder=\"Bob\"><br>\n          </div>\n          <input type=\"submit\" value=\"Join\" />\n        </form>\n      </div>\n    </div>\n  </div>\n\n</body>\n\n</html>\n",
+			"file": "sitebuild/session-landing.html",
+			"file_size": 805,
+			"file_write_time": 132528762219685877,
+			"settings":
+			{
+				"buffer_size": 805,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n\n<head>\n  <meta charset=\"utf-8\">\n  <title>Pajthy</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n  <link href=\"style.css\" rel=\"stylesheet\">\n</head>\n\n<body>\n\n  <div class=\"root\">\n    <div class=\"header\">\n      <div class=\"logo\"></div>\n      <h1 class=\"title\">Pajthy</h1>\n    </div>\n    <div class=\"countdown\"></div>\n    <div class=\"content\">\n      <div class=\"landing\">\n        <form action=\"admin.html\">\n          <div class=\"pair\">\n            <label for=\"title\">Session</label><br>\n            <input type=\"text\" id=\"title\" name=\"title\" placeholder=\"Alpha Team Grooming 1st of April\"><br>\n          </div>\n          <input type=\"submit\" name=\"system\" value=\"Fibonacci\" />\n          <input type=\"submit\" name=\"system\" value=\"T-Shirt\" />\n        </form>\n      </div>\n    </div>\n  </div>\n\n</body>\n\n</html>\n",
+			"file": "sitebuild/index.html",
+			"file_size": 860,
+			"file_write_time": 132528762733096854,
+			"settings":
+			{
+				"buffer_size": 860,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"plantum",
+				"PlantUmlDiagrams: Generate Diagrams for Active View"
+			],
+			[
+				"plantu",
+				"PlantUmlDiagrams: Continually Generate Diagram"
+			],
+			[
+				"pacin",
+				"Package Control: Install Package"
+			],
+			[
+				"restart",
+				"LSP: Restart Servers"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/akarasz/Documents/pajthy",
+		"/Users/akarasz/Documents/pajthy/sitebuild"
+	],
+	"file_history":
+	[
+		"/Users/akarasz/Documents/pajthy/sitebuild/session.html",
+		"/Users/akarasz/Documents/pajthy/sitebuild/session-landing.html",
+		"/Users/akarasz/Documents/pajthy/sitebuild/index.html",
+		"/Users/akarasz/Documents/pajthy/docs/wf-engineer_flow.puml",
+		"/Users/akarasz/Documents/pajthy/docs/wf-sm_flow.puml",
+		"/Users/akarasz/Documents/pajthy/docs/plan.md",
+		"/Users/akarasz/Documents/pajthy/docs/wf-layout.puml",
+		"/Users/akarasz/Documents/pajthy/docs/wf-sm_flow.png",
+		"/Users/akarasz/jasmine.json",
+		"/Users/akarasz/Downloads/esiukgotoconnect-contacts.csv",
+		"/Users/akarasz/Documents/dajsz/src/index.css",
+		"/Users/akarasz/Documents/dajsz/src/Yahtzee.jsx",
+		"/Users/akarasz/Documents/dajsz/src/Yahtzee.css",
+		"/Users/akarasz/Documents/dajsz/src/App.jsx",
+		"/Users/akarasz/Documents/dajsz/src/Menu.css",
+		"/Users/akarasz/Documents/dajsz/src/Menu.jsx"
+	],
+	"find":
+	{
+		"height": 40.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "sitebuild/admin.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1330,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								874,
+								874
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 206.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "sitebuild/style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2532,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1805,
+								1805
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS3/CSS3.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "sitebuild/session-landing.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 805,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								516,
+								516
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "sitebuild/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 860,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								456,
+								456
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.diagnostics":
+	{
+		"height": 121.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.language servers":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"output.references":
+	{
+		"height": 121.0
+	},
+	"pinned_build_system": "",
+	"project": "pajthy.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 282.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
