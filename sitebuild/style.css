@@ -88,11 +88,11 @@ body {
 }
 
 .content form .pair {
-  display:  flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  align-content:  stretch;
+  align-content: stretch;
 }
 
 .content form .pair label {
@@ -109,7 +109,8 @@ body {
   width: 100%;
 }
 
-.content form input {
+.content form input,
+.button {
   border: 1px solid black;
   color: white;
   color: black;
@@ -117,11 +118,54 @@ body {
   padding: .2em .6em;
 }
 
-.content form input[type=submit] {
+.content form input[type=submit],
+.button {
   text-align: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 .content form input[type=text] {
   border: 0px solid black;
   border-bottom-width: 1px;
+}
+
+.content hr {
+  border: 1px solid #eee;
+  margin: 2em 2em;
+  margin-bottom: 1em;
+}
+
+.content .admin table.votes {
+  border: 2px solid black;
+  border-collapse: collapse;
+  table-layout: fixed;
+  
+  width: 30em;
+  margin-top: 2em;
+  margin-left: 5em;
+
+  justify-content: center;
+}
+
+.content .admin table.votes td {
+  padding: .4em;
+  border: 1px solid black;
+}
+
+.content .admin table.votes td:nth-child(2) {
+  width: 10em;
+  text-align: center;
+}
+
+.content .admin .share {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.content .admin .link {
+  font-style: italic;
+  margin-top: .3em;
+  margin-right: 1.5em;
 }
