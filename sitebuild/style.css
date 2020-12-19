@@ -5,10 +5,11 @@ body {
 .root {
   display: grid;
 
-  grid-template-rows: 5.5em 12em;
+  grid-template-rows: 10em .5em 1fr;
   grid-template-columns: 1fr 40em 1fr;
   grid-template-areas: 
     "header header header"
+    "countdown countdown countdown"
     ". content .";
 }
 
@@ -17,35 +18,53 @@ body {
 
   display: grid;
 
-  grid-template-columns: 1fr 5em 35em 1fr;
-  grid-template-rows: auto .5em;
-  grid-template-areas: 
-    ". logo title ."
-    "countdown countdown countdown countdown";
+  grid-template-columns: 1fr 10em 30em 1fr;
+  grid-template-areas:
+    ". logo title .";
+}
 
-  background-color: red;
+
+@media (max-width: 40em) {
+  .root {
+    grid-template-rows: 5em .5em 1fr;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "header"
+      "countdown"
+      "content";
+  }
+
+  .header {
+    grid-template-columns: 5em 1fr;
+    grid-template-areas:
+      "logo title";
+  }
 }
 
 .header .logo {
   grid-area: logo;
 
-  background-color: purple;
+  background-image: url("logo.png");
+  background-size: cover;
 }
 
-.header .title {
+.header h1.title {
   grid-area: title;
 
-  background-color: yellow;
+  align-self: center;
+  justify-self: center;
+
+  font-size: 5em;
+  font-family: sans-serif;
+  margin: 0;
 }
 
-.header .countdown {
+.countdown {
   grid-area: countdown;
 
-  background-color:  blue;
+  background-color: black;
 }
 
 .content {
   grid-area: content;
-
-  background-color: green;
 }
