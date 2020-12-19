@@ -70,21 +70,24 @@ body {
   grid-area: content;
 }
 
-.content .landing form {
+.content h2 {
+  text-align: center;
+}
+
+.content form {
   display: flex;
   flex-direction: column;
 }
 
-.content .landing form > * {
+.content form > * {
   margin-top: 1em;
 }
 
-
-.content .landing form * {
+.content form * {
   font-size: 1em;
 }
 
-.content .landing form .pair {
+.content form .pair {
   display:  flex;
   flex-direction: row;
   justify-content: space-between;
@@ -92,21 +95,21 @@ body {
   align-content:  stretch;
 }
 
-.content .landing form .pair label {
+.content form .pair label {
   margin-top: .2em;
   margin-right: 1em;
   padding: .2em .6em;
 }
 
-.content .landing form .pair label::after {
+.content form .pair label::after {
   content: ":";
 }
 
-.content .landing form .pair input {
+.content form .pair input {
   width: 100%;
 }
 
-.content .landing form input {
+.content form input {
   border: 1px solid black;
   color: white;
   color: black;
@@ -114,11 +117,11 @@ body {
   padding: .2em .6em;
 }
 
-.content .landing form input[type=submit] {
+.content form input[type=submit] {
   text-align: center;
 }
 
-.content .landing form input[type=text] {
+.content form input[type=text] {
   border: 0px solid black;
   border-bottom-width: 1px;
 }
