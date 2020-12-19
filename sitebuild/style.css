@@ -8,7 +8,7 @@ body {
 
   grid-template-rows: 10em .5em 1fr;
   grid-template-columns: 1fr 40em 1fr;
-  grid-template-areas: 
+  grid-template-areas:
     "header header header"
     "countdown countdown countdown"
     ". content .";
@@ -140,7 +140,7 @@ body {
   border: 2px solid black;
   border-collapse: collapse;
   table-layout: fixed;
-  
+
   width: 30em;
   margin-top: 2em;
   margin-left: 5em;
