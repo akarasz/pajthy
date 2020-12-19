@@ -1,0 +1,7 @@
+@startsalt
+{#
+  logo | title
+  statusbar | *
+  content | *
+}
+@endsalt

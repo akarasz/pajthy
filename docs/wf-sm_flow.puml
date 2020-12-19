@@ -1,0 +1,34 @@
+@startuml
+!unquoted procedure SALT($x)
+"{{
+salt
+%invoke_procedure("_"+$x)
+}}" as $x
+!endprocedure
+
+!procedure _landing()
+{
+  { Title | "Example Session   " }  
+  [      Fibonacci        ]
+  [       T-Shirt         ]
+}
+!endprocedure
+
+!procedure _admin()
+{^Example Session
+  { https://pajthy.com/abcd | [<&clipboard>] }
+  ..
+  { "30  " | [     Go    ] }
+  ..
+  {#
+    Alice (x) | 2
+    Bob (x)   | 3
+    Carol (x) | ?
+  }
+  
+}
+!endprocedure
+
+(*) --> SALT(landing)
+-down-> SALT(admin)
+@enduml
