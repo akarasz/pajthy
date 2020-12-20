@@ -40,7 +40,7 @@ header {
   }
 }
 
-header logo {
+header .logo {
   grid-area: logo;
 
   background-image: url("logo.png");
@@ -57,35 +57,35 @@ header h1 {
   margin: 0;
 }
 
-countdown {
+.countdown {
   grid-area: countdown;
 
   background-color: black;
 }
 
-content {
+.content {
   padding-top: 2em;
   grid-area: content;
 }
 
-content h2 {
+.content h2 {
   text-align: center;
 }
 
-content {
+.content {
   display: flex;
   flex-direction: column;
 }
 
-content > * {
+.content > * {
   margin-top: 1em;
 }
 
-content * {
+.content * {
   font-size: 1em;
 }
 
-content .pair {
+.content .pair {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -93,22 +93,22 @@ content .pair {
   align-content: stretch;
 }
 
-content .pair label {
+.content .pair label {
   margin-top: .2em;
   margin-right: 1em;
   padding: .2em .6em;
 }
 
-content .pair label::after {
+.content .pair label::after {
   content: ":";
 }
 
-content .pair input {
+.content .pair input {
   width: 100%;
 }
 
-content input,
-content button,
+.content input,
+.content button,
 .button {
   border: 1px solid black;
   color: white;
@@ -117,14 +117,14 @@ content button,
   padding: .2em .6em;
 }
 
-content button,
+.content button,
 .button {
   text-align: center;
   cursor: pointer;
   user-select: none;
 }
 
-content button.big,
+.content button.big,
 .button.big {
   padding: 1em 3em;
   color: white;
@@ -132,18 +132,18 @@ content button.big,
   font-weight: bold;
 }
 
-content input[type=text] {
+.content input[type=text] {
   border: 0px solid black;
   border-bottom-width: 1px;
 }
 
-content hr {
+.content hr {
   border: 1px solid #eee;
   margin: 2em 2em;
   margin-bottom: 1em;
 }
 
-content.admin table.votes {
+.content.admin table.votes {
   border: 2px solid black;
   border-collapse: collapse;
   table-layout: fixed;
@@ -155,23 +155,23 @@ content.admin table.votes {
   justify-content: center;
 }
 
-content.admin table.votes td {
+.content.admin table.votes td {
   padding: .4em;
   border: 1px solid black;
 }
 
-content.admin table.votes td:nth-child(2) {
+.content.admin table.votes td:nth-child(2) {
   width: 10em;
   text-align: center;
 }
 
-content.admin .share {
+.content.admin .share {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-content.admin .link {
+.content.admin .link {
   font-style: italic;
   margin-top: .3em;
   margin-right: 1.5em;
