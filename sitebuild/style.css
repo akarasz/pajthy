@@ -125,6 +125,14 @@ body {
   user-select: none;
 }
 
+.content form input[type=submit].big,
+.button.big {
+  padding: 1em 3em;
+  color: white;
+  background-color: black;
+  font-weight: bold;
+}
+
 .content form input[type=text] {
   border: 0px solid black;
   border-bottom-width: 1px;
