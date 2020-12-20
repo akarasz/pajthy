@@ -1,5 +1,4 @@
 id: [a-z0-9]{5}
-code: [0-9]{8}
 
 POST /
 	creates a new session that expires in 24 hours; returns 201 with id
@@ -9,12 +8,12 @@ GET /{id}
 	['option #1', 'option #2', 'option #3']
 
 GET /{id}/ws
-	starts a websocket for the user
+	opens a websocket for the user
 	* enable (when voting is enabled)
 	* disable (when voting is disabled)
 
-GET /{id}/admin?code={code}
-	returns the session data; if code is not matching returns 403
+GET /{id}/admin
+	returns the session data
 	{
 		choices: ['option #1', 'option #2', 'option #3'],
 		participants: ['Alice', 'Bob', 'Carol'],
@@ -22,12 +21,11 @@ GET /{id}/admin?code={code}
 			{participant: 'Alice', choice: 'option #2'},
 			{participant: 'Carl', choice: 'option #3'}
 		],
-		starts: 2020-12-19T19:29:27+00:00,
-		ends: 2020-12-19T19:29:57+00:00
+		open: false
 	}
 
-GET /{id}/admin/ws?code={code}
-	starts websocket for the admin; if code is not matching returns 403
+GET /{id}/admin/ws
+	opens websocket for the admin
 	* join (when someone joins)
 		{
 			participants: ['Alice', 'Bob', 'Carol', 'Dave']
@@ -60,22 +58,17 @@ PUT /{id}
 		vote: "option #2"
 	}
 
-PUT /{id}/start?code={code}
-	sets times, removes votes from session, emits empty `done` in admin,
+PATCH /{id}/start
+	sets open to true, removes votes from session, emits empty `done` in admin,
 	emits `enable` in normal, starts a countdown that will emit `done` on admin
-	and `disable` on normal when it's over; returns 403 if code not matches
-	{
-		starts: 2020-12-19T19:39:27+00:00,
-		ends: 2020-12-19T19:39:57+00:00
-	}
+	and `disable` on normal when it's over
 
-PUT /{id}/reset?code={code}
-	nulls out start and end times, removes votes from session, emits `done` in
-	admin, emits `disable` in normal; returns 403 if code not matches
+PATCH /{id}/reset
+	sets open to false, removes votes from session, emits `done` in
+	admin, emits `disable` in normal
 
-PUT /{id}/kick?code={code}
-	remove participant from session, emit `participant` on admin; returns 403
-	if code not matches
+PATCH /{id}/kick
+	remove participant from session, emit `participant` on admin
 	{
 		name: "Bob"
 	}
