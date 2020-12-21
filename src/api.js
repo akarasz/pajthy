@@ -44,6 +44,19 @@ export const vote = (sessionId, name, choice, onSuccess) => (
     }
   }))
 
+export const getSession = (sessionId, onSuccess) => (
+  fetch(httpBaseUri + "/" + sessionId + "/control", {
+    method: "GET",
+  })
+  .then(res => Promise.all([res.status, res.json()]))
+  .then(([code, body]) => {
+    if (code === 200) {
+      onSuccess(body)
+    } else {
+      throw (code, body)
+    }
+  }))
+
 export const join = (sessionId, name, onSuccess, onAlreadyJoined) => (
   fetch(httpBaseUri + "/" + sessionId + "/join", {
     method: "PUT",

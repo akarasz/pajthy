@@ -49,34 +49,53 @@ const NewSessionButton = ({ text, choices }) => {
 }
 
 const Control = () => {
+  const [session, setSession] = useState(null)
   const { sessionId } = useParams()
 
+  useEffect(() => {
+    api.getSession(sessionId, setSession)
+  }, [sessionId])
+
+  if (!session) {
+    return null
+  }
+
   return (<div className="admin content">
+    <Share />
+    <hr />
+    <BigButton text="Begin voting!" />
+    <Result participants={session.Participants || []} votes={session.Votes || {}} />
+  </div>)
+}
+
+const Share = () => {
+  const { sessionId } = useParams()
+
+  return (
     <div className="share">
       <div className="link">https://pajthy.com/{sessionId}</div>
       <div className="button">Copy</div>
-    </div>
-    <hr />
-    <BigButton text="Begin voting!" />
-    <hr />
+    </div>)
+}
+
+const Result = ({ participants, votes }) => {
+  if (participants.length === 0) {
+    return null
+  }
+
+  return (
     <table className="votes">
       <tbody>
-        <tr>
-          <td>Alice (x)</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>Bob (x)</td>
-          <td>?</td>
-        </tr>
-        <tr>
-          <td>Carol (x)</td>
-          <td>3</td>
-        </tr>
+        {participants.map((name, i) => <ResultRow key={i} name={name} vote={votes[name]} />)}
       </tbody>
-    </table>
-  </div>)
+    </table>)
 }
+
+const ResultRow = ({ name, vote }) => (
+  <tr>
+    <td>{name} (x)</td>
+    <td>{vote}</td>
+  </tr>)
 
 const Session = () => {
   const [name, setName] = useState(null)
