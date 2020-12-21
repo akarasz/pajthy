@@ -32,25 +32,20 @@ const Header = () => {
 const Countdown = () => (
   <div className="countdown"></div>)
 
-const Home = ({ title }) => {
+const Home = () => (
+  <div className="content">
+    <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "?"]} />
+    <NewSessionButton text="T-Shirt" choices={["S", "M", "L", "?"]} />
+  </div>)
+
+const NewSessionButton = ({ text, choices }) => {
   const history = useHistory()
 
-  const handleClickFibonacci = () => {
-    api.createSession(
-      ["1", "2", "3", "5", "8", "?"],
-      (session) => { history.push(session + "/control") })
+  const handleClick = () => {
+    api.createSession(choices, (session) => history.push(session + "/control"))
   }
 
-  const handleClickTShirt = () => {
-    api.createSession(
-      ["S", "M", "L", "?"],
-      (session) => { history.push(session + "/control") })
-  }
-
-  return (<div className="content">
-    <BigButton text="Fibonacci" onClick={handleClickFibonacci} />
-    <BigButton text="T-Shirt" onClick={handleClickTShirt} />
-  </div>)
+  return <BigButton text={text} onClick={handleClick} />
 }
 
 const Control = () => {
@@ -127,14 +122,22 @@ const Vote = ({ name }) => {
     api.choices(sessionId, (res) => { setChoices(res) })
   }, [sessionId])
 
+  return (
+    <div className="content">
+      {choices.map((c, i) => <VoteButton key={i} name={name} choice={c} />)}
+    </div>)
+}
+
+const VoteButton = ({ name, choice }) => {
+  const { sessionId } = useParams()
+
   const handleClick = (choice) => {
     api.vote(sessionId, name, choice, () => {})
   }
 
   return (
-    <div className="content">
-      {choices.map((c, i) => <BigButton key={i} text={c} onClick={() => handleClick(c)} />)}
-    </div>)
+    <BigButton text={choice} onClick={() => handleClick(choice)} />
+    )
 }
 
 const TextInput = ({ name, placeholder, onChange }) => (
