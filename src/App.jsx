@@ -1,47 +1,62 @@
-import { useState } from "react"
-import { BrowserRouter as Router, Switch, Route, useParams } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { BrowserRouter as Router, Switch, Route, Link, useHistory, useParams } from "react-router-dom"
 import "./App.css"
+import * as api from "./api.js"
 
 const App = () => (
   <div className="App">
-    <Header />
-    <Countdown />
     <Router>
+      <Header />
+      <Countdown />
       <Switch>
         <Route exact path="/">
-          <Home title="Alpha Team Grooming 1st of April" />
+          <Home />
         </Route>
         <Route path="/:sessionId/control">
-          <Control title="Alpha Team Grooming 1st of April" />
+          <Control />
         </Route>
         <Route path="/:sessionId">
-          <Session title="Alpha Team Grooming 1st of April" />
+          <Session />
         </Route>
       </Switch>
     </Router>
   </div>)
 
-const Header = () => (
-  <header>
+const Header = () => {
+  return (<header>
     <div className="logo"></div>
-    <h1>Pajthy</h1>
+    <h1><Link to="/">Pajthy</Link></h1>
   </header>)
+}
 
 const Countdown = () => (
   <div className="countdown"></div>)
 
-const Home = ({ title }) => (
-  <div class="content">
-    <TextInput name="Session" placeholder={title} />
-    <BigButton text="Fibonacci" />
-    <BigButton text="T-Shirt" />
-  </div>)
+const Home = ({ title }) => {
+  const history = useHistory()
 
-const Control = ({ title }) => {
-  let { sessionId } = useParams()
+  const handleClickFibonacci = () => {
+    api.createSession(
+      ["1", "2", "3", "5", "8", "?"],
+      (session) => { history.push(session + "/control") })
+  }
+
+  const handleClickTShirt = () => {
+    api.createSession(
+      ["S", "M", "L", "?"],
+      (session) => { history.push(session + "/control") })
+  }
+
+  return (<div className="content">
+    <BigButton text="Fibonacci" onClick={handleClickFibonacci} />
+    <BigButton text="T-Shirt" onClick={handleClickTShirt} />
+  </div>)
+}
+
+const Control = () => {
+  const { sessionId } = useParams()
 
   return (<div className="admin content">
-    <h2>{title}</h2>
     <div className="share">
       <div className="link">https://pajthy.com/{sessionId}</div>
       <div className="button">Copy</div>
@@ -68,41 +83,59 @@ const Control = ({ title }) => {
   </div>)
 }
 
-const Session = ({ title }) => {
+const Session = () => {
   const [name, setName] = useState(null)
+  const { sessionId } = useParams()
 
   if (name === null) {
-    return <JoinForm title={title} setName={setName} />
+    const handleJoin = (name) => {
+      api.join(
+        sessionId,
+        name,
+        () => setName(name),
+        () => setName(name))
+    }
+
+    return <JoinForm onClickJoin={handleJoin} />
   } else {
-    return <Vote title={title} />
+    return <Vote name={name} />
   }
 }
 
-const JoinForm = ({ title, setName }) => {
+const JoinForm = ({ onClickJoin }) => {
   const [value, setValue] = useState(null)
 
   const handleChange = (e) => {
     setValue(e.target.value)
   }
 
+  const handleClick = (e) => {
+    onClickJoin(value)
+  }
+
   return (<div className="content">
-    <h2>{title}</h2>
     <TextInput name="Name" onChange={handleChange} />
-    <BigButton text="Join" onClick={() => setName(value)} />
+    <BigButton text="Join" onClick={handleClick} />
   </div>)
 }
 
-const Vote = ({ title }) => (
-  <div className="content">
-    <h2>{title}</h2>
-    <BigButton text="1" />
-    <BigButton text="2" />
-    <BigButton text="3" />
-    <BigButton text="5" />
-    <BigButton text="8" />
-    <BigButton text="13" />
-    <BigButton text="?" />
-  </div>)
+const Vote = ({ name }) => {
+  const [choices, setChoices] = useState([])
+  const { sessionId } = useParams()
+
+  useEffect(() => {
+    api.choices(sessionId, (res) => { setChoices(res) })
+  }, [sessionId])
+
+  const handleClick = (choice) => {
+    api.vote(sessionId, name, choice, () => {})
+  }
+
+  return (
+    <div className="content">
+      {choices.map((c, i) => <BigButton key={i} text={c} onClick={() => handleClick(c)} />)}
+    </div>)
+}
 
 const TextInput = ({ name, placeholder, onChange }) => (
   <div className="pair">
