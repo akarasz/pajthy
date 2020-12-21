@@ -145,7 +145,7 @@ header h1 a {
   margin-bottom: 1em;
 }
 
-.content.admin table.votes {
+.content table.votes {
   border: 2px solid black;
   border-collapse: collapse;
   table-layout: fixed;
@@ -157,24 +157,29 @@ header h1 a {
   justify-content: center;
 }
 
-.content.admin table.votes td {
+.content table.votes td {
   padding: .4em;
   border: 1px solid black;
 }
 
-.content.admin table.votes td:nth-child(2) {
+.content table.votes td:nth-child(2) {
   width: 10em;
   text-align: center;
 }
 
-.content.admin .share {
+.content .share {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.content.admin .link {
+.content .link {
   font-style: italic;
   margin-top: .3em;
   margin-right: 1.5em;
+}
+
+.content .kick {
+  cursor: pointer;
+  font-size: .6em;
 }

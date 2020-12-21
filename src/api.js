@@ -57,6 +57,55 @@ export const getSession = (sessionId, onSuccess) => (
     }
   }))
 
+export const startVote = (sessionId, onSuccess) => (
+  fetch(httpBaseUri + "/" + sessionId + "/control/start", {
+    method: "PATCH",
+  })
+  .then(res => {
+    if (res.status === 202) {
+      onSuccess()
+    } else {
+      throw res
+    }
+  }))
+
+export const stopVote = (sessionId, onSuccess) => (
+  fetch(httpBaseUri + "/" + sessionId + "/control/stop", {
+    method: "PATCH",
+  })
+  .then(res => {
+    if (res.status === 202) {
+      onSuccess()
+    } else {
+      throw res
+    }
+  }))
+
+export const resetVote = (sessionId, onSuccess) => (
+  fetch(httpBaseUri + "/" + sessionId + "/control/reset", {
+    method: "PATCH",
+  })
+  .then(res => {
+    if (res.status === 202) {
+      onSuccess()
+    } else {
+      throw res
+    }
+  }))
+
+export const kickParticipant = (sessionId, name, onSuccess) => (
+  fetch(httpBaseUri + "/" + sessionId + "/control/kick", {
+    method: "PATCH",
+    body: name,
+  })
+  .then(res => {
+    if (res.status === 204) {
+      onSuccess()
+    } else {
+      throw res
+    }
+  }))
+
 export const join = (sessionId, name, onSuccess, onAlreadyJoined) => (
   fetch(httpBaseUri + "/" + sessionId + "/join", {
     method: "PUT",

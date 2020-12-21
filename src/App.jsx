@@ -7,10 +7,10 @@ const App = () => (
   <div className="App">
     <Router>
       <Header />
-      <Countdown />
+      <div className="countdown"></div>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Landing />
         </Route>
         <Route path="/:sessionId/control">
           <Control />
@@ -23,16 +23,14 @@ const App = () => (
   </div>)
 
 const Header = () => {
-  return (<header>
-    <div className="logo"></div>
-    <h1><Link to="/">Pajthy</Link></h1>
-  </header>)
+  return (
+    <header>
+      <div className="logo"></div>
+      <h1><Link to="/">Pajthy</Link></h1>
+    </header>)
 }
 
-const Countdown = () => (
-  <div className="countdown"></div>)
-
-const Home = () => (
+const Landing = () => (
   <div className="content">
     <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "?"]} />
     <NewSessionButton text="T-Shirt" choices={["S", "M", "L", "?"]} />
@@ -60,22 +58,46 @@ const Control = () => {
     return null
   }
 
-  return (<div className="admin content">
-    <Share />
-    <hr />
-    <BigButton text="Begin voting!" />
-    <Result participants={session.Participants || []} votes={session.Votes || {}} />
-  </div>)
+  const participants = session.Participants || []
+  const votes = session.Votes || {}
+
+  return (
+    <div className="admin content">
+      <Share />
+      <ControlButton open={session.Open} hasVotes={(Object.keys(votes)).length > 0} />
+      <Result participants={participants} votes={votes} />
+    </div>)
 }
 
 const Share = () => {
   const { sessionId } = useParams()
 
+  const url = "https://pajthy.akarasz.me/" + sessionId
+
+  const handleClick = () => {
+    navigator.clipboard
+      .writeText(url)
+  }
+
   return (
     <div className="share">
-      <div className="link">https://pajthy.com/{sessionId}</div>
-      <div className="button">Copy</div>
+      <div className="link">{url}</div>
+      <button onClick={handleClick}>Copy</button>
     </div>)
+}
+
+const ControlButton = ({ open, hasVotes }) => {
+  const { sessionId } = useParams()
+
+  if (open) {
+    return <BigButton text="ENOUGH!" onClick={() => api.stopVote(sessionId, () => {})} />
+  }
+
+  if (hasVotes) {
+    return <BigButton text="Reset" onClick={() => api.resetVote(sessionId, () => {})} />
+  }
+
+  return <BigButton text="Begin voting!" onClick={() => api.startVote(sessionId, () => {})} />
 }
 
 const Result = ({ participants, votes }) => {
@@ -92,10 +114,16 @@ const Result = ({ participants, votes }) => {
 }
 
 const ResultRow = ({ name, vote }) => (
-  <tr>
-    <td>{name} (x)</td>
-    <td>{vote}</td>
-  </tr>)
+    <tr>
+      <td>{name} <KickButton /></td>
+      <td>{vote}</td>
+    </tr>)
+
+const KickButton = ({ name }) => {
+  const { sessionId } = useParams()
+
+  return <span className="kick" onClick={() => api.kickParticipant(sessionId, name, () => {})}>(X)</span>
+}
 
 const Session = () => {
   const [name, setName] = useState(null)
@@ -166,6 +194,8 @@ const TextInput = ({ name, placeholder, onChange }) => (
   </div>)
 
 const BigButton = ({ text, onClick }) => (
-  <button onClick={onClick} className="big">{text}</button>)
+  <button onClick={onClick} className="big">
+    {text}
+  </button>)
 
 export default App
