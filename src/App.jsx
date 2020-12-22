@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, useParams } from "react-router-dom"
 import "./App.css"
-import { api} from "./api.js"
+import { api, baseUrl } from "./api.js"
 
 const App = () => (
   <div className="App">
@@ -163,19 +163,46 @@ const JoinForm = ({ onClickJoin }) => {
 
 const Vote = ({ name }) => {
   const [choices, setChoices] = useState([])
+  const [enabled, setEnabled] = useState(false)
   const { sessionId } = useParams()
+  const ws = useRef(null)
 
   useEffect(() => {
     api.choices(sessionId, (res) => { setChoices(res) })
   }, [sessionId])
 
+  useEffect(() => { // handle websocket creation
+    ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/ws")
+
+    return () => {
+      ws.current.close();
+    }
+  }, [sessionId])
+
+  useEffect(() => { // handle websocket onevent
+    if (!ws.current) {
+      return
+    }
+
+    console.log("settign up onmessage")
+
+    ws.current.onmessage = (e) => {
+      const event = JSON.parse(e.data)
+      if (event.Kind === "enabled") {
+        setEnabled(true)
+      } else if (event.Kind === "disabled") {
+        setEnabled(false)
+      }
+    }
+  }, [sessionId])
+
   return (
     <div className="content">
-      {choices.map((c, i) => <VoteButton key={i} name={name} choice={c} />)}
+      {choices.map((c, i) => <VoteButton key={i} name={name} enabled={enabled} choice={c} />)}
     </div>)
 }
 
-const VoteButton = ({ name, choice }) => {
+const VoteButton = ({ name, enabled, choice }) => {
   const { sessionId } = useParams()
 
   const handleClick = (choice) => {
@@ -183,7 +210,7 @@ const VoteButton = ({ name, choice }) => {
   }
 
   return (
-    <BigButton text={choice} onClick={() => handleClick(choice)} />
+    <BigButton text={choice} disabled={!enabled} onClick={() => handleClick(choice)} />
     )
 }
 
@@ -193,8 +220,8 @@ const TextInput = ({ name, placeholder, onChange }) => (
     <input id={name} type="text" placeholder={placeholder} onChange={onChange} />
   </div>)
 
-const BigButton = ({ text, onClick }) => (
-  <button onClick={onClick} className="big">
+const BigButton = ({ text, disabled, onClick }) => (
+  <button onClick={onClick} className="big" disabled={disabled}>
     {text}
   </button>)
 

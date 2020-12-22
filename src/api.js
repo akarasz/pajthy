@@ -1,8 +1,7 @@
-const baseUrl = "api.pajthy.akarasz.me"
+export const baseUrl = "api.pajthy.akarasz.me"
 const httpBaseUri = "https://" + baseUrl
 
 export const api = {
-
   createSession: (choices, onSuccess) => (
     fetch(httpBaseUri, {
       method: "POST",
