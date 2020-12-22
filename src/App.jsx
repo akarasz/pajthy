@@ -71,7 +71,6 @@ const Control = () => {
 
     ws.current.onmessage = (e) => {
       const event = JSON.parse(e.data)
-      console.log(event.Kind, event.Data)
       setSession(current => { return { ...current, ...event.Data } })
     }
   }, [sessionId])
