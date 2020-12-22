@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, useParams } from "react-router-dom"
 import "./App.css"
-import * as api from "./api.js"
+import { api} from "./api.js"
 
 const App = () => (
   <div className="App">
