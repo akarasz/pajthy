@@ -167,8 +167,9 @@ header h1 a {
 }
 
 .content table.votes td {
-  padding: .4em;
+  padding: .4em 1.2em;
   border: 1px solid black;
+  height: 2em;
 }
 
 .content table.votes td:nth-child(2) {

@@ -34,6 +34,7 @@ const Landing = () => (
   <div className="content">
     <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "?"]} />
     <NewSessionButton text="T-Shirt" choices={["S", "M", "L", "?"]} />
+    <NewSessionButton text="✋" choices={["👍", "👌", "🤷", "👎", "🖕"]} />
   </div>)
 
 const NewSessionButton = ({ text, choices }) => {
@@ -49,9 +50,30 @@ const NewSessionButton = ({ text, choices }) => {
 const Control = () => {
   const [session, setSession] = useState(null)
   const { sessionId } = useParams()
+  const ws = useRef(null)
 
   useEffect(() => {
     api.getSession(sessionId, setSession)
+  }, [sessionId])
+
+  useEffect(() => { // handle websocket creation
+    ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/control/ws")
+
+    return () => {
+      ws.current.close();
+    }
+  }, [sessionId])
+
+  useEffect(() => { // handle websocket onevent
+    if (!ws.current) {
+      return
+    }
+
+    ws.current.onmessage = (e) => {
+      const event = JSON.parse(e.data)
+      console.log(event.Kind, event.Data)
+      setSession(current => { return { ...current, ...event.Data } })
+    }
   }, [sessionId])
 
   if (!session) {
@@ -115,7 +137,7 @@ const Result = ({ participants, votes }) => {
 
 const ResultRow = ({ name, vote }) => (
     <tr>
-      <td>{name} <KickButton /></td>
+      <td>{name} <KickButton name={name} /></td>
       <td>{vote}</td>
     </tr>)
 
@@ -183,8 +205,6 @@ const Vote = ({ name }) => {
     if (!ws.current) {
       return
     }
-
-    console.log("settign up onmessage")
 
     ws.current.onmessage = (e) => {
       const event = JSON.parse(e.data)
