@@ -6,12 +6,13 @@ import { Button } from "./Commons.jsx"
 import { join, choices as getChoices, vote } from "./api.js"
 import { baseUrl } from "./api.js"
 
-const TextInput = ({ name, autoFocus, onChange, onEnter }) => {
+const TextInput = ({ name, value, autoFocus, onChange, onEnter }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       onEnter?.()
     }
   }
+
   return (
     <div className="pair">
       <label htmlFor={name}>{name}</label>
@@ -19,13 +20,15 @@ const TextInput = ({ name, autoFocus, onChange, onEnter }) => {
         id={name}
         type="text"
         autoFocus={autoFocus}
+        value={value}
         onChange={onChange}
         onKeyPress={handleKeyPress} />
+
     </div>)
 }
 
-const JoinForm = ({ onClickJoin }) => {
-  const [value, setValue] = useState(null)
+const JoinForm = ({ defaultValue, onClickJoin }) => {
+  const [value, setValue] = useState(defaultValue)
 
   const handleChange = (e) => {
     setValue(e.target.value)
@@ -36,7 +39,12 @@ const JoinForm = ({ onClickJoin }) => {
   }
 
   return (<div className="content">
-    <TextInput name="Name" onChange={handleChange} onEnter={handleClick} autoFocus />
+    <TextInput
+      name="Name"
+      value={value}
+      onChange={handleChange}
+      onEnter={handleClick}
+      autoFocus />
     <Button text="Join" onClick={handleClick} />
   </div>)
 }
@@ -116,16 +124,24 @@ const Vote = () => {
   const [name, setName] = useState(null)
   const { sessionId } = useParams()
 
+  const saveName = (name) => {
+    window.localStorage.setItem("name", name)
+    setName(name)
+  }
+
   if (name === null) {
     const handleJoin = (name) => {
       join(
         sessionId,
         name,
-        () => setName(name),
-        () => setName(name))
+        () => saveName(name),
+        () => saveName(name))
     }
 
-    return <JoinForm onClickJoin={handleJoin} />
+    return (
+      <JoinForm
+        onClickJoin={handleJoin}
+        defaultValue={name || window.localStorage.getItem("name") || ""} />)
   } else {
     return <Session name={name} />
   }
