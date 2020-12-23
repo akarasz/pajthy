@@ -48,7 +48,10 @@ const Session = ({ name }) => {
   const ws = useRef(null)
 
   useEffect(() => {
-    getChoices(sessionId, setChoices)
+    getChoices(sessionId, (res) => {
+      setChoices(res.Choices)
+      setEnabled(res.Open)
+    })
   }, [sessionId])
 
   useEffect(() => { // handle websocket creation
@@ -68,7 +71,10 @@ const Session = ({ name }) => {
       const event = JSON.parse(e.data)
       if (event.Kind === "enabled") {
         setEnabled(true)
+        setSelected(null)
       } else if (event.Kind === "disabled") {
+        setEnabled(false)
+      } else if (event.Kind === "reset") {
         setEnabled(false)
         setSelected(null)
       }
@@ -98,7 +104,7 @@ const VoteButton = ({ name, choice, enabled, selected, onClick }) => {
 
   return (
     <Button
-      className={enabled && selected ? "selected": null}
+      className={selected ? "selected": null}
       text={choice}
       disabled={!enabled}
       onClick={() => handleClick(choice)} />

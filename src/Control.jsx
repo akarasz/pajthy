@@ -27,7 +27,7 @@ const ControlButton = ({ open, hasVotes }) => {
   const { sessionId } = useParams()
 
   if (open) {
-    return <Button text="ENOUGH!" onClick={() => stopVote(sessionId)} />
+    return <Button text="STAHP!" className="danger" onClick={() => stopVote(sessionId)} />
   }
 
   if (hasVotes) {

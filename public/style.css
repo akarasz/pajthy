@@ -157,12 +157,27 @@ header h1 a {
   border-color: darkgreen;
 }
 
+.content button.big.danger,
+.button.big.danger {
+  background-color: red;
+}
+
 .content button.big[disabled],
 .button.big[disabled] {
   padding: 1em 3em;
   color: gray;
   border-color: gray;
   background-color: white;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.content button.big[disabled].selected,
+.button.big[disabled].selected {
+  padding: 1em 3em;
+  color: gray;
+  border-color: gray;
+  background-color: lightgreen;
   font-weight: bold;
   cursor: not-allowed;
 }
