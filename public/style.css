@@ -162,6 +162,7 @@ header h1 a {
 .content input[type=text] {
   border: 0px solid black;
   border-bottom-width: 1px;
+  margin-right: .6em;
 }
 
 .content hr {
