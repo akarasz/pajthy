@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, useParams } from "react-router-dom"
 import "./App.css"
-import { api, baseUrl } from "./api.js"
+import * as api from "./api.js"
+import { baseUrl } from "./api.js"
 
 const App = () => (
   <div className="App">
@@ -111,14 +112,14 @@ const ControlButton = ({ open, hasVotes }) => {
   const { sessionId } = useParams()
 
   if (open) {
-    return <BigButton text="ENOUGH!" onClick={() => api.stopVote(sessionId, () => {})} />
+    return <BigButton text="ENOUGH!" onClick={() => api.stopVote(sessionId)} />
   }
 
   if (hasVotes) {
-    return <BigButton text="Reset" onClick={() => api.resetVote(sessionId, () => {})} />
+    return <BigButton text="Reset" onClick={() => api.resetVote(sessionId)} />
   }
 
-  return <BigButton text="Begin voting!" onClick={() => api.startVote(sessionId, () => {})} />
+  return <BigButton text="Begin voting!" onClick={() => api.startVote(sessionId)} />
 }
 
 const Result = ({ participants, votes }) => {
@@ -143,7 +144,7 @@ const ResultRow = ({ name, vote }) => (
 const KickButton = ({ name }) => {
   const { sessionId } = useParams()
 
-  return <span className="kick" onClick={() => api.kickParticipant(sessionId, name, () => {})}>(X)</span>
+  return <span className="kick" onClick={() => api.kickParticipant(sessionId, name)}>(X)</span>
 }
 
 const Session = () => {
@@ -189,7 +190,7 @@ const Vote = ({ name }) => {
   const ws = useRef(null)
 
   useEffect(() => {
-    api.choices(sessionId, (res) => { setChoices(res) })
+    api.choices(sessionId, setChoices)
   }, [sessionId])
 
   useEffect(() => { // handle websocket creation
@@ -225,7 +226,7 @@ const VoteButton = ({ name, enabled, choice }) => {
   const { sessionId } = useParams()
 
   const handleClick = (choice) => {
-    api.vote(sessionId, name, choice, () => {})
+    api.vote(sessionId, name, choice)
   }
 
   return (
