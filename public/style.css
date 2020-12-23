@@ -1,5 +1,9 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
 
-.App {
+.pajthy {
   display: grid;
 
   grid-template-rows: 10em .2em 1fr;
@@ -11,7 +15,7 @@
 }
 
 @media (max-width: 40em) {
-  .App {
+  .pajthy {
     grid-template-rows: 5em .2em 1fr;
     grid-template-columns: 100%;
     grid-template-areas:

@@ -7,15 +7,11 @@ export const createSession = (choices, onSuccess) => (
     body: JSON.stringify(choices),
   })
   .then(res => {
-    console.log("res was", res)
     if (res.status === 201) {
       onSuccess?.(res.headers.get("location"))
     } else {
       throw res
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
   }))
 
 export const choices = (sessionId, onSuccess) => (
