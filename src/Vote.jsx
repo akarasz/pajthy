@@ -6,7 +6,7 @@ import { Button } from "./Commons.jsx"
 import { join, choices as getChoices, vote } from "./api.js"
 import { baseUrl } from "./api.js"
 
-const TextInput = ({ name, placeholder, onChange, onEnter }) => {
+const TextInput = ({ name, onChange, onEnter }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       onEnter?.()
@@ -18,7 +18,6 @@ const TextInput = ({ name, placeholder, onChange, onEnter }) => {
       <input
         id={name}
         type="text"
-        placeholder={placeholder}
         onChange={onChange}
         onKeyPress={handleKeyPress} />
     </div>)
@@ -43,6 +42,7 @@ const JoinForm = ({ onClickJoin }) => {
 
 const Session = ({ name }) => {
   const [choices, setChoices] = useState([])
+  const [selected, setSelected] = useState(null)
   const [enabled, setEnabled] = useState(false)
   const { sessionId } = useParams()
   const ws = useRef(null)
@@ -70,25 +70,38 @@ const Session = ({ name }) => {
         setEnabled(true)
       } else if (event.Kind === "disabled") {
         setEnabled(false)
+        setSelected(null)
       }
     }
   }, [sessionId])
 
   return (
     <div className="content">
-      {choices.map((c, i) => <VoteButton key={i} name={name} enabled={enabled} choice={c} />)}
+      {choices.map((c, i) =>
+        <VoteButton
+          key={i}
+          choice={c}
+          name={name}
+          enabled={enabled}
+          selected={selected === c}
+          onClick={setSelected} />
+      )}
     </div>)
 }
 
-const VoteButton = ({ name, enabled, choice }) => {
+const VoteButton = ({ name, choice, enabled, selected, onClick }) => {
   const { sessionId } = useParams()
 
   const handleClick = (choice) => {
-    vote(sessionId, name, choice)
+    vote(sessionId, name, choice, () => onClick(choice))
   }
 
   return (
-    <Button text={choice} disabled={!enabled} onClick={() => handleClick(choice)} />
+    <Button
+      className={enabled && selected ? "selected": null}
+      text={choice}
+      disabled={!enabled}
+      onClick={() => handleClick(choice)} />
     )
 }
 

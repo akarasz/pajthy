@@ -1,4 +1,11 @@
-export const Button = ({ text, disabled, onClick }) => (
-  <button onClick={onClick} className="big" disabled={disabled}>
-    {text}
-  </button>)
+export const Button = ({ text, className, disabled, onClick }) => {
+  const classes = ["big"]
+  if (className) {
+    classes.push(className)
+  }
+
+  return (
+    <button onClick={onClick} className={classes.join(" ")} disabled={disabled}>
+      {text}
+    </button>)
+}

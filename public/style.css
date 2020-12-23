@@ -144,16 +144,24 @@ header h1 a {
 
 .content button.big,
 .button.big {
+  border-width: .3em;
   padding: 1em 3em;
   color: white;
   background-color: black;
   font-weight: bold;
 }
 
+.content button.big.selected,
+.button.big.selected {
+  background-color: green;
+  border-color: darkgreen;
+}
+
 .content button.big[disabled],
 .button.big[disabled] {
   padding: 1em 3em;
   color: gray;
+  border-color: gray;
   background-color: white;
   font-weight: bold;
   cursor: not-allowed;
