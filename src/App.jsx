@@ -27,7 +27,10 @@ const Header = () => {
   return (
     <header>
       <div className="logo"></div>
-      <h1><Link to="/">Pajthy</Link></h1>
+      <div className="title">
+        <h1><Link to="/">Pajthy</Link></h1>
+        <p className="subtitle">easy voting for your remote scrum ceremonies</p>
+      </div>
     </header>)
 }
 
