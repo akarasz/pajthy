@@ -46,7 +46,7 @@ header {
 header .logo {
   grid-area: logo;
 
-  background-image: url("logo.png");
+  background-image: url("/logo.png");
   background-size: cover;
 }
 
