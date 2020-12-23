@@ -6,7 +6,7 @@ import { Button } from "./Commons.jsx"
 import { join, choices as getChoices, vote } from "./api.js"
 import { baseUrl } from "./api.js"
 
-const TextInput = ({ name, onChange, onEnter }) => {
+const TextInput = ({ name, autoFocus, onChange, onEnter }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       onEnter?.()
@@ -18,6 +18,7 @@ const TextInput = ({ name, onChange, onEnter }) => {
       <input
         id={name}
         type="text"
+        autoFocus={autoFocus}
         onChange={onChange}
         onKeyPress={handleKeyPress} />
     </div>)
@@ -35,7 +36,7 @@ const JoinForm = ({ onClickJoin }) => {
   }
 
   return (<div className="content">
-    <TextInput name="Name" onChange={handleChange} onEnter={handleClick} />
+    <TextInput name="Name" onChange={handleChange} onEnter={handleClick} autoFocus />
     <Button text="Join" onClick={handleClick} />
   </div>)
 }
