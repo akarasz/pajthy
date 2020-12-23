@@ -166,6 +166,13 @@ header h1 a {
   justify-content: center;
 }
 
+@media (max-width: 40em) {
+  .content table.votes {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 .content table.votes td {
   padding: .4em 1.2em;
   border: 1px solid black;
