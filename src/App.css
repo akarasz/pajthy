@@ -172,6 +172,10 @@ header h1 a {
   height: 2em;
 }
 
+.content table.votes tr.already-voted {
+  background-color: yellow;
+}
+
 .content table.votes td:nth-child(2) {
   width: 10em;
   text-align: center;

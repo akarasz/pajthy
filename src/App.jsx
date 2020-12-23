@@ -87,7 +87,7 @@ const Control = () => {
     <div className="admin content">
       <Share />
       <ControlButton open={session.Open} hasVotes={(Object.keys(votes)).length > 0} />
-      <Result participants={participants} votes={votes} />
+      <Result participants={participants} votes={votes} inProgress={session.Open} />
     </div>)
 }
 
@@ -122,7 +122,7 @@ const ControlButton = ({ open, hasVotes }) => {
   return <BigButton text="Begin voting!" onClick={() => api.startVote(sessionId)} />
 }
 
-const Result = ({ participants, votes }) => {
+const Result = ({ participants, votes, inProgress }) => {
   if (participants.length === 0) {
     return null
   }
@@ -130,16 +130,22 @@ const Result = ({ participants, votes }) => {
   return (
     <table className="votes">
       <tbody>
-        {participants.map((name, i) => <ResultRow key={i} name={name} vote={votes[name]} />)}
+        {participants.map((name, i) =>
+          <ResultRow key={i} name={name} vote={votes[name]} inProgress={inProgress} />
+        )}
       </tbody>
     </table>)
 }
 
-const ResultRow = ({ name, vote }) => (
-    <tr>
+const ResultRow = ({ name, vote, inProgress }) => {
+  const markVoted = inProgress && vote
+
+  return (
+    <tr className={markVoted ? "already-voted" : null}>
       <td>{name} <KickButton name={name} /></td>
-      <td>{vote}</td>
+      <td>{inProgress ? null : vote}</td>
     </tr>)
+}
 
 const KickButton = ({ name }) => {
   const { sessionId } = useParams()
