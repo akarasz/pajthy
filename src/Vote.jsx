@@ -6,11 +6,23 @@ import { Button } from "./Commons.jsx"
 import { join, choices as getChoices, vote } from "./api.js"
 import { baseUrl } from "./api.js"
 
-const TextInput = ({ name, placeholder, onChange }) => (
-  <div className="pair">
-    <label htmlFor={name}>{name}</label>
-    <input id={name} type="text" placeholder={placeholder} onChange={onChange} />
-  </div>)
+const TextInput = ({ name, placeholder, onChange, onEnter }) => {
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onEnter?.()
+    }
+  }
+  return (
+    <div className="pair">
+      <label htmlFor={name}>{name}</label>
+      <input
+        id={name}
+        type="text"
+        placeholder={placeholder}
+        onChange={onChange}
+        onKeyPress={handleKeyPress} />
+    </div>)
+}
 
 const JoinForm = ({ onClickJoin }) => {
   const [value, setValue] = useState(null)
@@ -19,12 +31,12 @@ const JoinForm = ({ onClickJoin }) => {
     setValue(e.target.value)
   }
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     onClickJoin(value)
   }
 
   return (<div className="content">
-    <TextInput name="Name" onChange={handleChange} />
+    <TextInput name="Name" onChange={handleChange} onEnter={handleClick} />
     <Button text="Join" onClick={handleClick} />
   </div>)
 }
