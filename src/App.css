@@ -46,6 +46,12 @@ header .logo {
   background-size: cover;
 }
 
+@media (max-width: 40em) {
+  header .logo {
+    height: 5em;
+  }
+}
+
 header h1 {
   grid-area: title;
 
@@ -54,6 +60,12 @@ header h1 {
 
   font-size: 5em;
   margin: 0;
+}
+
+@media (max-width: 40em) {
+  header h1 {
+    font-size: 3.5em;
+  }
 }
 
 header h1 a {
