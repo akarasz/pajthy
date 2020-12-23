@@ -46,8 +46,41 @@ header {
 header .logo {
   grid-area: logo;
 
+  position: relative;
+  overflow: hidden;
+}
+
+header .logo::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   background-image: url("/logo.png");
   background-size: cover;
+
+}
+
+@keyframes logo-nodding {
+  0% {
+    transform: rotate(30deg);
+  }
+  49.9999% {
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+  100% {
+    transform: rotate(-30deg);
+  }
+}
+
+header .logo.animate::before {
+  animation-name: logo-nodding;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 @media (max-width: 40em) {

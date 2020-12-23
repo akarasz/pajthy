@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useContext, useRef } from "react"
 import { useParams } from "react-router-dom"
 
+import { LogoAnimationContext } from "./App.jsx"
 import { Button } from "./Commons.jsx"
 
 import { getSession, startVote, stopVote, resetVote, kickParticipant } from "./api.js"
@@ -72,10 +73,14 @@ const Control = () => {
   const [session, setSession] = useState(null)
   const { sessionId } = useParams()
   const ws = useRef(null)
+  const { setAnimated } = useContext(LogoAnimationContext)
 
   useEffect(() => {
-    getSession(sessionId, setSession)
-  }, [sessionId])
+    getSession(sessionId, (res) => {
+      setSession(res)
+      setAnimated(res.Open)
+    })
+  }, [sessionId, setAnimated])
 
   useEffect(() => { // handle websocket creation
     ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/control/ws")
@@ -83,7 +88,7 @@ const Control = () => {
     return () => {
       ws.current.close();
     }
-  }, [sessionId])
+  }, [sessionId, setAnimated])
 
   useEffect(() => { // handle websocket onevent
     if (!ws.current) {
@@ -92,9 +97,22 @@ const Control = () => {
 
     ws.current.onmessage = (e) => {
       const event = JSON.parse(e.data)
+
+      switch(event.Kind) {
+        case "enabled":
+          setAnimated(true)
+          break
+        case "disabled":
+        case "reset":
+          setAnimated(false)
+          break
+        default:
+          break
+      }
+
       setSession(current => { return { ...current, ...event.Data } })
     }
-  }, [sessionId])
+  }, [sessionId, setAnimated])
 
   if (!session) {
     return null

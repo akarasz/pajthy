@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useContext, useRef } from "react"
 import { useParams } from "react-router-dom"
 
+import { LogoAnimationContext } from "./App.jsx"
 import { Button } from "./Commons.jsx"
 
 import { join, choices as getChoices, vote } from "./api.js"
@@ -55,13 +56,15 @@ const Session = ({ name }) => {
   const [enabled, setEnabled] = useState(false)
   const { sessionId } = useParams()
   const ws = useRef(null)
+  const { setAnimated } = useContext(LogoAnimationContext)
 
   useEffect(() => {
     getChoices(sessionId, (res) => {
       setChoices(res.Choices)
       setEnabled(res.Open)
+      setAnimated(res.Open)
     })
-  }, [sessionId])
+  }, [sessionId, setAnimated])
 
   useEffect(() => { // handle websocket creation
     ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/ws")
@@ -80,15 +83,18 @@ const Session = ({ name }) => {
       const event = JSON.parse(e.data)
       if (event.Kind === "enabled") {
         setEnabled(true)
+        setAnimated(true)
         setSelected(null)
       } else if (event.Kind === "disabled") {
         setEnabled(false)
+        setAnimated(false)
       } else if (event.Kind === "reset") {
         setEnabled(false)
+        setAnimated(false)
         setSelected(null)
       }
     }
-  }, [sessionId])
+  }, [sessionId, setAnimated])
 
   return (
     <div className="content">
