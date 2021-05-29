@@ -16,7 +16,7 @@ const NewSessionButton = ({ text, choices }) => {
 
 const Home = () => (
   <div className="content">
-    <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "?"]} />
+    <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "13", "?"]} />
     <NewSessionButton text="T-Shirt" choices={["S", "M", "L", "?"]} />
     <NewSessionButton text="✋" choices={["👍", "👌", "🤷", "👎", "🖕"]} />
   </div>)
