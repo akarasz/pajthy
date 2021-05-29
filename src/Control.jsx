@@ -10,7 +10,7 @@ import { baseUrl } from "./api.js"
 const Share = () => {
   const { sessionId } = useParams()
 
-  const url = "https://pajthy.akarasz.me/" + sessionId
+  const url = "https://pajthy.com/" + sessionId
 
   const handleClick = () => {
     navigator.clipboard
