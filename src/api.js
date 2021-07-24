@@ -1,8 +1,21 @@
-export const baseUrl = "api.pajthy.akarasz.me"
-const httpBaseUri = "https://" + baseUrl
+export const baseUrl = "https://api.pajthy.akarasz.me"
+
+export const followRedirectsAndOpenWSConnection = async (currentURL) => {
+  return await fetch(currentURL.replace(/^ws/, "http"), {
+    method: "GET",
+    redirect: 'follow'
+  })
+  .then(res => {
+    if (res.status === 426) {
+      return new WebSocket(currentURL.replace(/^http/, "ws"))
+    } else {
+      throw res
+    }
+  })
+}
 
 export const createSession = (choices, onSuccess) => (
-  fetch(httpBaseUri, {
+  fetch(baseUrl, {
     method: "POST",
     body: JSON.stringify(choices),
   })
@@ -15,7 +28,7 @@ export const createSession = (choices, onSuccess) => (
   }))
 
 export const choices = (sessionId, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId, {
+  fetch(baseUrl + "/" + sessionId, {
     method: "GET",
   })
   .then(res => Promise.all([res.status, res.json()]))
@@ -28,7 +41,7 @@ export const choices = (sessionId, onSuccess) => (
   }))
 
 export const vote = (sessionId, name, choice, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId, {
+  fetch(baseUrl + "/" + sessionId, {
     method: "PUT",
     body: JSON.stringify({Participant: name, Choice: choice}),
   })
@@ -41,7 +54,7 @@ export const vote = (sessionId, name, choice, onSuccess) => (
   }))
 
 export const getSession = (sessionId, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId + "/control", {
+  fetch(baseUrl + "/" + sessionId + "/control", {
     method: "GET",
   })
   .then(res => Promise.all([res.status, res.json()]))
@@ -54,7 +67,7 @@ export const getSession = (sessionId, onSuccess) => (
   }))
 
 export const startVote = (sessionId, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId + "/control/start", {
+  fetch(baseUrl + "/" + sessionId + "/control/start", {
     method: "PATCH",
   })
   .then(res => {
@@ -66,7 +79,7 @@ export const startVote = (sessionId, onSuccess) => (
   }))
 
 export const stopVote = (sessionId, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId + "/control/stop", {
+  fetch(baseUrl + "/" + sessionId + "/control/stop", {
     method: "PATCH",
   })
   .then(res => {
@@ -78,7 +91,7 @@ export const stopVote = (sessionId, onSuccess) => (
   }))
 
 export const resetVote = (sessionId, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId + "/control/reset", {
+  fetch(baseUrl + "/" + sessionId + "/control/reset", {
     method: "PATCH",
   })
   .then(res => {
@@ -90,7 +103,7 @@ export const resetVote = (sessionId, onSuccess) => (
   }))
 
 export const kickParticipant = (sessionId, name, onSuccess) => (
-  fetch(httpBaseUri + "/" + sessionId + "/control/kick", {
+  fetch(baseUrl + "/" + sessionId + "/control/kick", {
     method: "PATCH",
     body: name,
   })
@@ -103,7 +116,7 @@ export const kickParticipant = (sessionId, name, onSuccess) => (
   }))
 
 export const join = (sessionId, name, onSuccess, onAlreadyJoined) => (
-  fetch(httpBaseUri + "/" + sessionId + "/join", {
+  fetch(baseUrl + "/" + sessionId + "/join", {
     method: "PUT",
     body: name,
   })

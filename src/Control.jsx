@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext, useRef } from "react"
+import { useState, useEffect, useContext, useRef, useCallback } from "react"
 import { useParams } from "react-router-dom"
 
 import { LogoAnimationContext } from "./App.jsx"
 import { Button } from "./Commons.jsx"
 
-import { getSession, startVote, stopVote, resetVote, kickParticipant } from "./api.js"
+import { followRedirectsAndOpenWSConnection, getSession, startVote, stopVote, resetVote, kickParticipant } from "./api.js"
 import { baseUrl } from "./api.js"
 
 const Share = () => {
@@ -74,28 +74,7 @@ const Control = () => {
   const { sessionId } = useParams()
   const ws = useRef(null)
   const { setAnimated } = useContext(LogoAnimationContext)
-
-  useEffect(() => {
-    getSession(sessionId, (res) => {
-      setSession(res)
-      setAnimated(res.Open)
-    })
-  }, [sessionId, setAnimated])
-
-  useEffect(() => { // handle websocket creation
-    ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/control/ws")
-
-    return () => {
-      ws.current.close();
-    }
-  }, [sessionId, setAnimated])
-
-  useEffect(() => { // handle websocket onevent
-    if (!ws.current) {
-      return
-    }
-
-    ws.current.onmessage = (e) => {
+  const handleWsMessage = useCallback((e) => {
       const event = JSON.parse(e.data)
 
       switch(event.Kind) {
@@ -111,8 +90,33 @@ const Control = () => {
       }
 
       setSession(current => { return { ...current, ...event.Data } })
-    }
+    }, [setAnimated])
+
+  useEffect(() => {
+    getSession(sessionId, (res) => {
+      setSession(res)
+      setAnimated(res.Open)
+    })
   }, [sessionId, setAnimated])
+
+  useEffect(() => { // handle websocket creation
+    return (async() => {
+        ws.current = await followRedirectsAndOpenWSConnection(baseUrl + "/" + sessionId + "/control/ws")
+        ws.current.onmessage = handleWsMessage
+
+        return () => {
+          ws.current.close();
+        }
+    })()
+  }, [handleWsMessage, sessionId])
+
+  useEffect(() => { // handle websocket onevent
+    if (!ws.current) {
+      return
+    }
+
+    ws.current.onmessage = handleWsMessage
+  }, [handleWsMessage, sessionId])
 
   if (!session) {
     return null

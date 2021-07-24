@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext, useRef } from "react"
+import { useState, useEffect, useContext, useRef, useCallback } from "react"
 import { useParams } from "react-router-dom"
 
 import { LogoAnimationContext } from "./App.jsx"
 import { Button } from "./Commons.jsx"
 
-import { join, choices as getChoices, vote } from "./api.js"
+import { followRedirectsAndOpenWSConnection, join, choices as getChoices, vote } from "./api.js"
 import { baseUrl } from "./api.js"
 
 const TextInput = ({ name, value, autoFocus, onChange, onEnter }) => {
@@ -57,6 +57,21 @@ const Session = ({ name }) => {
   const { sessionId } = useParams()
   const ws = useRef(null)
   const { setAnimated } = useContext(LogoAnimationContext)
+  const handleWsMessage = useCallback((e) => {
+    const event = JSON.parse(e.data)
+    if (event.Kind === "enabled") {
+      setEnabled(true)
+      setAnimated(true)
+      setSelected(null)
+    } else if (event.Kind === "disabled") {
+      setEnabled(false)
+      setAnimated(false)
+    } else if (event.Kind === "reset") {
+      setEnabled(false)
+      setAnimated(false)
+      setSelected(null)
+    }
+  }, [setAnimated])
 
   useEffect(() => {
     getChoices(sessionId, (res) => {
@@ -67,34 +82,23 @@ const Session = ({ name }) => {
   }, [sessionId, setAnimated])
 
   useEffect(() => { // handle websocket creation
-    ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/ws")
+    return (async() => {
+        ws.current = await followRedirectsAndOpenWSConnection(baseUrl + "/" + sessionId + "/ws")
+        ws.current.onmessage = handleWsMessage
 
-    return () => {
-      ws.current.close();
-    }
-  }, [sessionId])
+        return () => {
+          ws.current.close();
+        }
+    })()
+  }, [handleWsMessage, sessionId])
 
   useEffect(() => { // handle websocket onevent
     if (!ws.current) {
       return
     }
 
-    ws.current.onmessage = (e) => {
-      const event = JSON.parse(e.data)
-      if (event.Kind === "enabled") {
-        setEnabled(true)
-        setAnimated(true)
-        setSelected(null)
-      } else if (event.Kind === "disabled") {
-        setEnabled(false)
-        setAnimated(false)
-      } else if (event.Kind === "reset") {
-        setEnabled(false)
-        setAnimated(false)
-        setSelected(null)
-      }
-    }
-  }, [sessionId, setAnimated])
+    ws.current.onmessage = handleWsMessage
+  }, [handleWsMessage, sessionId])
 
   return (
     <div className="content">
