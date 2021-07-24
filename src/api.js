@@ -3,11 +3,17 @@ export const baseUrl = "https://api.pajthy.akarasz.me"
 export const followRedirectsAndOpenWSConnection = async (currentURL) => {
   return await fetch(currentURL.replace(/^ws/, "http"), {
     method: "GET",
-    redirect: 'follow'
   })
   .then(res => {
     if (res.status === 426) {
       return new WebSocket(currentURL.replace(/^http/, "ws"))
+    } else if (res.status === 301) {
+      const location = res.headers.get("location")
+      if (location.match(/^ws/)) {
+        return new WebSocket(location)
+      } else {
+        return followRedirectsAndOpenWSConnection(res.headers.get("location"))
+      }
     } else {
       throw res
     }
