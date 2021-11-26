@@ -1,0 +1,300 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.pajthy {
+  display: grid;
+
+  grid-template-rows: 10em .2em 1fr;
+  grid-template-columns: 1fr 40em 1fr;
+  grid-template-areas:
+    "header header header"
+    "countdown countdown countdown"
+    ". content .";
+}
+
+@media (max-width: 40em) {
+  .pajthy {
+    grid-template-rows: 5em .2em 1fr;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "header"
+      "countdown"
+      "content";
+  }
+}
+
+header {
+  grid-area: header;
+
+  display: grid;
+
+  grid-template-columns: 1fr 10em 30em 1fr;
+  grid-template-areas:
+    ". logo title .";
+}
+
+@media (max-width: 40em) {
+  header {
+    grid-template-columns: 5em 1fr;
+    grid-template-areas:
+      "logo title";
+  }
+}
+
+header .logo {
+  grid-area: logo;
+
+  position: relative;
+  overflow: hidden;
+}
+
+header .logo::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url("/logo.png");
+  background-size: cover;
+
+}
+
+@keyframes logo-nodding {
+  0% {
+    transform: rotate(30deg);
+  }
+  49.9999% {
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+  100% {
+    transform: rotate(-30deg);
+  }
+}
+
+header .logo.animate::before {
+  animation-name: logo-nodding;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@media (max-width: 40em) {
+  header .logo {
+    height: 5em;
+  }
+}
+
+header .title {
+  padding-top: .5em;
+  align-self: center;
+  justify-self: center;
+
+  grid-area: title;
+}
+
+@media (max-width: 40em) {
+  header .title {
+    padding-top: .9em;
+  }
+}
+
+header .title p.subtitle {
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+@media (max-width: 40em) {
+  header .title p.subtitle {
+    visibility: hidden;
+  }
+}
+
+header h1 {
+  font-size: 5em;
+  margin: 0;
+}
+
+@media (max-width: 40em) {
+  header h1 {
+    text-align: center;
+    font-size: 3.5em;
+  }
+}
+
+header h1 a {
+  color: black;
+  text-decoration: none;
+}
+
+.countdown {
+  grid-area: countdown;
+
+  background-color: black;
+}
+
+.content {
+  padding-top: 2em;
+  grid-area: content;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 2em;
+}
+
+.content > * {
+  margin-top: 1em;
+}
+
+.content * {
+  font-size: 1em;
+}
+
+.content .pair {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.content .pair label {
+  margin-top: .2em;
+  margin-right: 1em;
+  padding: .2em .6em;
+}
+
+.content .pair label::after {
+  content: ":";
+}
+
+.content .pair input {
+  width: 100%;
+}
+
+.content input,
+.content button,
+.button {
+  border: 1px solid black;
+  color: white;
+  color: black;
+  background: white;
+  padding: .2em .6em;
+}
+
+.content button,
+.button {
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.content button.big,
+.button.big {
+  border-width: .3em;
+  padding: 1em 3em;
+  color: white;
+  background-color: black;
+  font-weight: bold;
+}
+
+.content button.big.selected,
+.button.big.selected {
+  background-color: green;
+  border-color: darkgreen;
+}
+
+.content button.big.danger,
+.button.big.danger {
+  background-color: red;
+}
+
+.content button.big[disabled],
+.button.big[disabled] {
+  padding: 1em 3em;
+  color: gray;
+  border-color: gray;
+  background-color: white;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.content button.big[disabled].selected,
+.button.big[disabled].selected {
+  padding: 1em 3em;
+  color: gray;
+  border-color: gray;
+  background-color: lightgreen;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.content input[type=text] {
+  border: 0px solid black;
+  border-bottom-width: 1px;
+  margin-right: .6em;
+}
+
+.content hr {
+  border: 1px solid #eee;
+  margin: 2em 2em;
+  margin-bottom: 1em;
+}
+
+.content table.votes {
+  border: 2px solid black;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  width: 30em;
+  margin-top: 2em;
+  margin-left: 5em;
+
+  justify-content: center;
+}
+
+@media (max-width: 40em) {
+  .content table.votes {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.content table.votes td {
+  padding: .4em 1.2em;
+  border: 1px solid black;
+  height: 2em;
+}
+
+.content table.votes tr.already-voted {
+  background-color: yellow;
+}
+
+.content table.votes td:nth-child(2) {
+  width: 10em;
+  text-align: center;
+}
+
+.content .share {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.content .link {
+  font-style: italic;
+  margin-top: .3em;
+  margin-right: 1.5em;
+}
+
+.content .kick {
+  cursor: pointer;
+  font-size: .6em;
+}
