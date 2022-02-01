@@ -56,6 +56,7 @@ const Session = ({ name }) => {
   const [enabled, setEnabled] = useState(false)
   const { sessionId } = useParams()
   const ws = useRef(null)
+  const [reloadWs, setReloadWs] = useState(false)
   const { setAnimated } = useContext(LogoAnimationContext)
 
   useEffect(() => {
@@ -64,15 +65,16 @@ const Session = ({ name }) => {
       setEnabled(res.Open)
       setAnimated(res.Open)
     })
-  }, [sessionId, setAnimated])
+  }, [sessionId, setAnimated, reloadWs])
 
   useEffect(() => { // handle websocket creation
-    ws.current = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/ws")
+    const newWs = new WebSocket("wss://" + baseUrl + "/" + sessionId + "/ws")
+    ws.current = newWs
 
     return () => {
-      ws.current.close();
+      newWs.close();
     }
-  }, [sessionId])
+  }, [sessionId, reloadWs])
 
   useEffect(() => { // handle websocket onevent
     if (!ws.current) {
@@ -94,7 +96,12 @@ const Session = ({ name }) => {
         setSelected(null)
       }
     }
-  }, [sessionId, setAnimated])
+
+    ws.current.onclose = () => {
+      ws.current = null
+      setReloadWs(cur => !cur)
+    }
+  }, [sessionId, setAnimated, reloadWs])
 
   return (
     <div className="content">
