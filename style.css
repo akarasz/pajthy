@@ -248,7 +248,8 @@ header h1 a {
   margin-bottom: 1em;
 }
 
-.content table.votes {
+.content table.votes,
+.content table.aggregate {
   border: 2px solid black;
   border-collapse: collapse;
   table-layout: fixed;
@@ -261,13 +262,15 @@ header h1 a {
 }
 
 @media (max-width: 40em) {
-  .content table.votes {
+  .content table.votes,
+  .content table.aggregate {
     width: 100%;
     margin-left: 0;
   }
 }
 
-.content table.votes td {
+.content table.votes td,
+.content table.aggregate td {
   padding: .4em 1.2em;
   border: 1px solid black;
   height: 2em;
@@ -277,7 +280,8 @@ header h1 a {
   background-color: yellow;
 }
 
-.content table.votes td:nth-child(2) {
+.content table.votes td:nth-child(2),
+.content table.aggregate td:nth-child(2) {
   width: 10em;
   text-align: center;
 }
