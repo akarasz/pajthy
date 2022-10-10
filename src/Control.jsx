@@ -12,7 +12,7 @@ import median from "median"
 const Share = () => {
   const { sessionId } = useParams()
 
-  const url = "https://pajthy.com/" + sessionId
+  const url = window.location.origin + "/" + sessionId
 
   const handleClick = () => {
     navigator.clipboard
