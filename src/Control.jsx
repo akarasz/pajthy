@@ -7,6 +7,8 @@ import { Button } from "./Commons.jsx"
 import { getSession, startVote, stopVote, resetVote, kickParticipant } from "./api.js"
 import { baseUrl } from "./api.js"
 
+import median from "median"
+
 const Share = () => {
   const { sessionId } = useParams()
 
@@ -51,6 +53,36 @@ const Result = ({ participants, votes, inProgress }) => {
         )}
       </tbody>
     </table>)
+}
+
+const Aggregate = ({votes}) => {
+  const keys = Object.keys(votes)
+  const values = Object.values(votes).map(item => parseInt(item))
+  if (keys.length <= 0) {
+    return null
+  }
+
+  if (values.filter(item => isNaN(item)).length > 0) {
+    return null
+  }
+
+  const avg = values.reduce((a, b) => a + b) / values.length
+  const med = median(values)
+
+  return (
+    <table className="aggregate">
+      <tbody>
+        <tr>
+          <td>Average</td>
+          <td>{avg.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td>Median</td>
+          <td>{med.toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  )
 }
 
 const ResultRow = ({ name, vote, inProgress }) => {
@@ -126,6 +158,7 @@ const Control = () => {
       <Share />
       <ControlButton open={session.Open} hasVotes={(Object.keys(votes)).length > 0} />
       <Result participants={participants} votes={votes} inProgress={session.Open} />
+      {session.Open ? null : <Aggregate votes={votes}/>}
     </div>)
 }
 
