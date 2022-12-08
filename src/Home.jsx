@@ -19,6 +19,7 @@ const Home = () => (
     <NewSessionButton text="Fibonacci" choices={["1", "2", "3", "5", "8", "13", "?"]} />
     <NewSessionButton text="T-Shirt" choices={["XS", "S", "M", "L", "XL", "XXL", "?"]} />
     <NewSessionButton text="✋" choices={["👍", "👌", "🤷", "👎", "🖕"]} />
+    <NewSessionButton text="Spotify Helath Check 🚦" choices={["🔴", "🟡", "🟢"]} />
   </div>)
 
 export default Home
