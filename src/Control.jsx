@@ -56,13 +56,11 @@ const Result = ({ participants, votes, inProgress }) => {
 }
 
 const Aggregate = ({votes}) => {
-  const keys = Object.keys(votes)
-  const values = Object.values(votes).map(item => parseInt(item))
-  if (keys.length <= 0) {
-    return null
-  }
+  const values = Object.values(votes)
+    .map(item => parseInt(item))
+    .filter(item => !isNaN(item))
 
-  if (values.filter(item => isNaN(item)).length > 0) {
+  if (values.length === 0) {
     return null
   }
 
